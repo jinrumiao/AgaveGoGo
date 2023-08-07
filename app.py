@@ -28,7 +28,7 @@ def handle_message(event):
         Usage(event)
 
     if message_text == "@小幫手":
-        Template_msg(event)
+        Template_msg()
 
 
 if __name__ == "__main__":
