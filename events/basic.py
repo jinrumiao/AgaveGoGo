@@ -37,7 +37,7 @@ def push_msg(event, msg):
         user_id = event.source.user_id
         line_bot_api.push_message(user_id, TextSendMessage(text=msg))
     except:
-        room_id = source.room_id
+        room_id = event.source.room_id
         line_bot_api.push_message(room_id, TextSendMessage(msg))
 
 
@@ -51,6 +51,5 @@ def Usage(event):
         ➌匯率查詢➡➡➡輸入#國家
         ➍股價查詢➡➡➡輸入#股票代號  test
         ➎股價查詢➡➡➡輸入#股票代號  test
-        ➏股價查詢➡➡➡輸入#股票代號  test
-        """
+        ➏股價查詢➡➡➡輸入#股票代號  test"""
     )
