@@ -60,7 +60,7 @@ def Usage(event):
     )
 
 
-def Template_msg(event):
+def Template_msg():
     button_template = TemplateSendMessage(
             alt_text="小幫手template", 
             template=ButtonsTemplate(
