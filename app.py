@@ -29,7 +29,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    emojis = [
+    emoji = [
         {
             "index": 0, 
             "production": "5ac21a18040ab15980c9b43e", 
@@ -47,7 +47,7 @@ def handle_message(event):
 我是Agave財經小幫手~
 下方選單有：
 股票查詢、油價查詢、匯率查詢、自動提醒、資訊整理、使用說明
-使用上有任何問題可以參考使用說明''', emojis=emojis)
+使用上有任何問題可以參考使用說明''', emojis=emoji)
 
     sticker_message = StickerSendMessage(
         package_id="11537", sticker_id="52002735"
