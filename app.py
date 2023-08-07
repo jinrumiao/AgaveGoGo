@@ -28,7 +28,10 @@ def handle_message(event):
         Usage(event)
 
     if message_text == "@小幫手":
-        Template_msg()
+        button_template = Template_msg()
+        line_bot_api.reply_message(
+        event.reply_token, button_template
+        )
 
 
 if __name__ == "__main__":
