@@ -30,3 +30,27 @@ def about_us_event(event):
         event.reply_token, 
         [welcome_message, sticker_message]
     )
+
+
+def push_msg(event, msg):
+    try:
+        user_id = event.source.user_id
+        line_bot_api.push_message(user_id, TextSendMessage(text=msg))
+    except:
+        room_id = source.room_id
+        line_bot_api.push_message(room_id, TextSendMessage(msg))
+
+
+def Usage(event):
+    push_msg(
+        event, 
+        """🏃🏽‍♂‍➡️🏃🏽‍♂‍➡️查詢方法🏃🏽‍♂🏃🏽‍♂
+        🧞‍♂小幫手可以查詢股價、油價、匯率
+        ➊股價查詢➡➡➡輸入#股票代號
+        ➋油價查詢➡➡➡輸入#92、95、98、超柴
+        ➌匯率查詢➡➡➡輸入#國家
+        ➍股價查詢➡➡➡輸入#股票代號  test
+        ➎股價查詢➡➡➡輸入#股票代號  test
+        ➏股價查詢➡➡➡輸入#股票代號  test
+        """
+    )
