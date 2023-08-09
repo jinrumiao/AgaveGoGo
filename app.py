@@ -30,6 +30,7 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     uid = profile.user_id  # 使用者id
     user_name = profile.display_name
+    print(user_name)
     message_text = str(event.message.text).lower()
     msg = str(event.message.text).upper().strip()
     emsg = event.message.text
