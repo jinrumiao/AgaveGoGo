@@ -52,7 +52,7 @@ def handle_message(event):
         TextSendMessage("請輸入'#' + '股票代號'\n範例：#2330")
         )
 
-    if re.match("想知道股價[0-9]", msg):
+    if re.match("想知道股價", msg):
         stockNumber = msg[2:6]
         btn_msg = stock_reply_other(stockNumber)
         line_bot_api.push_message(uid, btn_msg)
@@ -67,7 +67,7 @@ def handle_message(event):
         my_time = my_datetime.strftime("%H:%M:%S")
 
         content += f"{stock_rt['info']['name']} ({stock_rt['info']['code']}) {my_time}"
-        content += f"現價: {stock_rt['realtime']['last_trade_price']} / 開盤: {stock_rt['realtime']['open']}\n"
+        content += f"現價: {stock_rt['realtime']['latest_trade_price']} / 開盤: {stock_rt['realtime']['open']}\n"
         content += f"最高: {stock_rt['realtime']['high']} / 最低: {stock_rt['realtime']['low']}\n"
         content += f"量: {stock_rt['realtime']['accumulate_trade_volume']}\n"
 
