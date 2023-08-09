@@ -122,7 +122,7 @@ def show_Button():
             "type": "button",
             "action": {
               "type": "message",
-              "label": "加拿大幣",
+              "label": "加幣",
               "text": "CAD"
             },
             "gravity": "center",
