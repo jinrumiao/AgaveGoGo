@@ -63,7 +63,7 @@ def handle_message(event):
         content = ""
 
         stock_rt = twstock.realtime.get(text)
-        my_datetime = datetime.datetime.fromtimestamp(stock_rt["timestamp"]+8*60*60)
+        my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp']+8*60*60)
         my_time = my_datetime.strftime("%H:%M:%S")
 
         content += f"{stock_rt['info']['name']} ({stock_rt['info']['code']}) {my_time}"
