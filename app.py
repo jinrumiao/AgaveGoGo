@@ -63,6 +63,7 @@ def handle_message(event):
     
     if re.match("關注[0-9]{4}[<>][0-9]", msg):
         stockNumber = msg[2:6]
+        line_bot_api.push_message(uid, TextSendMessage(f"{stockNumber}關注設定中..."))
         content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
         line_bot_api.push_message(uid, TextSendMessage(content))
     else:

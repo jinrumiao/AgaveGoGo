@@ -31,7 +31,7 @@ def write_my_stock(userID, user_name, stockNumber, condition, target_price):
     新增使用者的股票
     """
     db = constructor_stock()
-    collect = db["user_name"]
+    collect = db[user_name]
     is_exist = collect.find_one({"favorate_stock": stockNumber})
     if is_exist != None:
         content = update_my_stock(user_name, stockNumber, condition, target_price)
