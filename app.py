@@ -52,8 +52,8 @@ def handle_message(event):
         TextSendMessage("請輸入'#' + '股票代號'\n範例：#2330")
         )
 
-    if re.match("想知道股價", msg):
-        stockNumber = msg[2:6]
+    if re.match("想知道股價[0-9]", msg):
+        stockNumber = msg[-4:]
         btn_msg = stock_reply_other(stockNumber)
         line_bot_api.push_message(uid, btn_msg)
         return 0
