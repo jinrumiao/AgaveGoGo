@@ -2,6 +2,7 @@ from line_bot_api import *
 from events.basic import *
 from events.oil import *
 from events.Msg_Template import *
+from model.mongodb import *
 import re
 import twstock
 import datetime
@@ -28,6 +29,7 @@ def callback():
 def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     uid = profile.user_id  # 使用者id
+    user_name = profile.display_name
     message_text = str(event.message.text).lower()
     msg = str(event.message.text).upper().strip()
     emsg = event.message.text
@@ -58,10 +60,19 @@ def handle_message(event):
         line_bot_api.push_message(uid, btn_msg)
         return 0
     
+    if re.match("關注[0-9]{4}[<>][0-9]", msg):
+        stockNumber = msg[2:6]
+        content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
+        line_bot_api.push_message(uid, TextSendMessage(content))
+    else:
+        content = write_my_stock(uid, user_name, stockNumber, "未設定", "未設定")
+        line_bot_api.push_message(uid, TextSendMessage(content))
+        return 0
+    
     if (emsg.startswith('#')):
         text = emsg[1:]
         content = ""
-        
+
         try:
             stock_rt = twstock.realtime.get(text)
         except Exception as e:
