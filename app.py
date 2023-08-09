@@ -1,6 +1,10 @@
 from line_bot_api import *
 from events.basic import *
 from events.oil import *
+from events.Msg_Template import *
+import re
+import twstock
+import datetime
 
 app = Flask(__name__)
 
@@ -25,6 +29,8 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     uid = profile.user_id  # 使用者id
     message_text = str(event.message.text).lower()
+    msg = str(event.message.text).upper().strip()
+    emsg = event.message.text
 
     # ############"使用說明"############
     if message_text == "@使用說明":
@@ -45,6 +51,36 @@ def handle_message(event):
         uid, 
         TextSendMessage("請輸入'#' + '股票代號'\n範例：#2330")
         )
+
+    if re.match("想知道股價[0-9]", msg):
+        stockNumber = msg[2:6]
+        btn_msg = stock_reply_other(stockNumber)
+        line_bot_api.push_message(uid, btn_msg)
+        return 0
+    
+    if emsg.startwith("#"):
+        text = emsg[1:]
+        content = ""
+
+        stock_rt = twstock.realtime.get(text)
+        my_datetime = datetime.datetime.fromtimestamp(stock_rt["timestamp"]+8*60*60)
+        my_time = my_datetime.strftime("%H:%M:%S")
+
+        content += f"{stock_rt['info']['name']} ({stock_rt['info']['code']}) {my_time}"
+        content += f"現價: {stock_rt['realtime']['last_trade_price']} / 開盤: {stock_rt['realtime']['open']}\n"
+        content += f"最高: {stock_rt['realtime']['high']} / 最低: {stock_rt['realtime']['low']}\n"
+        content += f"量: {stock_rt['realtime']['accumulate_trade_volume']}\n"
+
+        stock = twstock.Stock(text)
+
+        content += "-" * 10
+        content += "近日五日價格: \n"
+        price5 = stock.price[-5:][::-1]
+        date5 = stock.date[-5:][::-1]
+        for i in range(len(price5)):
+            content += f"[{date5[i].strftime('%Y-%m-%d')} {price5[i]}]"
+
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=content))
 
     # ############"@小幫手"############
     if message_text == "@小幫手":
