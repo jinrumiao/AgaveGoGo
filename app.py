@@ -58,11 +58,15 @@ def handle_message(event):
         line_bot_api.push_message(uid, btn_msg)
         return 0
     
-    if(emsg.startswith('#')):
+    if (emsg.startswith('#')):
         text = emsg[1:]
         content = ""
+        
+        try:
+            stock_rt = twstock.realtime.get(text)
+        except Exception as e:
+            print(e)
 
-        stock_rt = twstock.realtime.get(text)
         my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp']+8*60*60)
         my_time = my_datetime.strftime("%H:%M:%S")
 
