@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import datetime
 
 stockDB = "line_bot_usage"
-collection = "stock"
+# collection = "stock"
 
 
 def constructor_stock():
@@ -54,13 +54,33 @@ def write_my_stock(userID, user_name, stockNumber, condition, target_price):
 def show_stock_setting(user_name, userID):
     db = constructor_stock()
 
+    
+
     collect = db[user_name]
-    dataList = list(collect.find({"userID": userID}))
+    dataList = list(collect.find({'userID': userID}))
+    
+    if dataList == []: return '您的股票清單為空，請透過指令新增股票至清單中'
 
-    if dataList == []: return "您的股票清單為空，請透過指令新增股票至清單中"
-    content = "您清單中的選股條件為: \n"
-
+    content = '您清單中的選股條件為: \n'
     for i in range(len(dataList)):
-        content += f"{dataList[i]['favorite_stock']} {dataList[i]['condition']} {dataList[i]['price']}"
-
+        content += f"{dataList[i]['favorite_stock']} {dataList[i]['condition']} {dataList[i]['price']}\n"
+    print(user_name, userID)
     return content
+
+
+def delete_my_stock(user_name, stockNumber):
+    db = constructor_stock()
+
+    collect = db[user_name]
+    collect.delete_one({"favorite_stock": stockNumber})
+
+    return stockNumber + "刪除成功"
+
+
+def delete_my_allstock(user_name, userID):
+    db = constructor_stock()
+
+    collect = db[user_name]
+    collect.delete_many({"userID": userID})
+
+    return "全部刪除成功"
